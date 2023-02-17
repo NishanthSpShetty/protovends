@@ -32,7 +32,7 @@ mod util;
 lazy_static! {
     static ref CRATE_VERSION: Version = Version::parse(env!("CARGO_PKG_VERSION")).unwrap();
     static ref REPOS_CACHE_DIRECTORY: PathBuf = env::temp_dir().join(".protovend/repos");
-    static ref PROTOS_DIRECTORY: PathBuf = PathBuf::from("proto");
+    static ref PROTOS_DIRECTORY: PathBuf = PathBuf::from("pkg/proto");
 }
 
 pub type Result<A> = std::result::Result<A, Error>;

@@ -80,7 +80,7 @@ Given that deep/complex interdependencies in protobuf schema definitions are lik
 
 ## How it works
 
-Protovend looks for a `/proto` folder in the repository that is being vendored, and copies all `*.proto` files found into `/vendor/proto` in the local repository.
+Protovend looks for a `/pkg/proto/service-name` folder in the repository that is being vendored, and copies all `*.proto` files found into `/pkg/proto/service-name` in the local repository.
 
 When you run protovend in a project it generates a `.protovend.yml` and `.protovend.lock` file. These are configuration files that contain all of the information required for vendoring.
 
@@ -176,10 +176,6 @@ Coding standards are maintained using the clippy and rustfmt tools. To run local
 cargo clippy
 cargo fmt --all
 ```
-
-## Contributing
-
-To contribute please read our [guidelines](https://github.com/Skyscanner/protovend/blob/master/CONTRIBUTING.md).
 
 ## Attribution
 

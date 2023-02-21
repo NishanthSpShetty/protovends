@@ -24,7 +24,7 @@ use std::str::FromStr;
 lazy_static! {
     static ref REPO: Regex = Regex::new("^/?(.+)\\.git$").unwrap();
     static ref GIT_URL_PATTERN: Regex =
-        Regex::new(r"^(?:git|ssh|https?|git)(://|@)(.*)[:/]((.*)/(.*))(\.git)(/?|\#[-\d\w._]+?)$")
+        Regex::new(r"^(?:git|ssh|https?|git)(://|@)(.*)[:/](.*)/(.*)(\.git)(/?|\#[-\d\w._]+?)$")
             .unwrap();
 }
 
@@ -43,14 +43,33 @@ impl GitUrl {
         captures.get(2).unwrap().as_str().to_owned()
     }
 
-    pub fn path(&self) -> String {
+    pub fn captures(&self) -> regex::Captures {
         let captures = GIT_URL_PATTERN.captures(self.as_str()).unwrap();
 
-        captures.get(3).unwrap().as_str().to_owned()
+        return captures;
+    }
+
+    pub fn path(&self) -> String {
+        let preject = self.captures().get(3).unwrap().as_str();
+        let repo = self.captures().get(4).unwrap().as_str();
+
+        return format!("{}/{}", preject, repo);
+    }
+
+    pub fn import_path(&self) -> String {
+        self.path()
+            .to_lowercase()
+            .chars()
+            .filter(|c| c.is_alphanumeric() || *c == '/')
+            .collect()
     }
 
     pub fn sanitised_path(&self) -> String {
-        self.path()
+        self.captures()
+            .get(4)
+            .unwrap()
+            .as_str()
+            .to_owned()
             .to_lowercase()
             .chars()
             .filter(|c| c.is_alphanumeric() || *c == '/')
